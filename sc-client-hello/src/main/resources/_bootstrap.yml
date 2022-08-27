@@ -1,0 +1,78 @@
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  profiles: prod
+  application:
+    name: sc-client-helloword
+  cloud:
+    config:
+      # 配置中心服务地址
+      uri: http://localhost:10005
+      label: main
+      profile: prod
+eureka:
+  instance:
+    # 本服务注册ID
+    #instance-id: ${spring.application.name}:${random.value}
+    instance-id: ${spring.application.name}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://sc-eureka-server-node1:9101/eureka/,http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/
+server:
+  port: 10010
+management:
+  endpoint:
+    shutdown:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+data:
+  env: sc-client-helloword-prod
+  user:
+    username: prod
+    password: NaN
+
+
+---
+spring:
+  profiles: dev
+  application:
+    name: sc-client-helloword
+  cloud:
+    config:
+      # 配置中心服务地址
+      uri: http://localhost:10005
+      label: main
+      profile: dev
+eureka:
+  instance:
+    # 本服务注册ID
+    #instance-id: ${spring.application.name}:${random.value}
+    instance-id: ${spring.application.name}
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://sc-eureka-server-node1:9101/eureka/,http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/
+server:
+  port: 10010
+management:
+  endpoint:
+    shutdown:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+data:
+  env: sc-client-helloword-dev
+  user:
+    username: dev
+    password: NaN

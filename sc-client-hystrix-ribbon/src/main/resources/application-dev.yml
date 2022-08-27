@@ -1,0 +1,13 @@
+server:
+  port: 10012
+
+spring:
+  application:
+    name: sc-client-ribbon
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://sc-eureka-server-node1:9101/eureka/,http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/

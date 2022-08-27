@@ -1,0 +1,19 @@
+server:
+  port: 10011
+
+spring:
+  application:
+    name: sc-client-feign
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://sc-eureka-server-node1:9101/eureka/,http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/
+
+ # feign配置
+feign:
+  hystrix:
+    # 在feign中开启hystrix功能，默认情况下feign不开启hystrix功能
+    enabled: true

@@ -1,0 +1,28 @@
+server:
+  port: 10001
+
+spring:
+  application:
+    name: sc-zuul
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    # 表示eureka client间隔多久去拉取服务注册信息，默认为30秒，对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://sc-eureka-server-node1:9101/eureka/,http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/
+
+# 动态路由，以下配置注释；
+# http://localhost:10001/route-a/api/queryUserInfo?userId=111
+# http://localhost:10001/route-b/api/queryUserInfo?userId=111
+zuul:
+  ignoredPatterns: /api/**
+#  routes:
+#    api-a:
+#      path: /route-a/**
+#      serviceId: sc-feign
+#    api-b:
+#      path: /route-b/**
+#      serviceId: sc-ribbon
