@@ -116,6 +116,7 @@ public class HostUtils {
         }
         // 原文件不存在指定的IP和域名，则新增
         if (needUpdateFlag) {
+            newLinesList.add("# Added by Java HostUtils.updateHost");
             // 在最后一行新增
             newLinesList.add(ip + SPACE + SPACE + SPACE + SPACE + domain);
         }
