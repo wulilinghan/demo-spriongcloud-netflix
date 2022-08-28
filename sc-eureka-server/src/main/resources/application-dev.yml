@@ -1,0 +1,40 @@
+server:
+  port: ${PORT:9101}
+
+spring:
+  application:
+    name: sc-eureka-server
+
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME:localhost}
+    #是否注册真实IP，默认为false，
+    prefer-ip-address: true
+    # 当前机器的IP地址
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    #心跳时间 发送心跳包校验时间 单位为秒 默认为30秒
+    # 默认30秒,easeRenewalIntervalInSeconds，表示 eureka client 发送心跳给 server 端的频率。
+    # 如果在leaseExpirationDurationInSeconds后，server 端没有收到client的心跳，则将摘除该 instance。
+    lease-renewal-interval-in-seconds: 30
+    #剔除时间 心跳丢失后服务端剔除服务时间 单位为秒 默认为90秒
+    # 默认为90秒,lease-expiration-duration-in-seconds，表示 eureka server 至上一次收到 client 的心跳之后，等待下一次心跳的超时时间，在这个时间内若没收到下一次心跳，则将移除该instance。
+    # 1.如果该值太大，则很可能将流量转发过去的时候，该instance已经不存活了。
+    # 2.如果该值设置太小了，则instance则很可能因为临时的网络抖动而被摘除掉。
+    # 3.该值至少应该大于leaseRenewalIntervalInSeconds
+    lease-expiration-duration-in-seconds: 90
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: ${EUREKA_ENABLE_SELF_PRESERVATION:false}
+  client:
+    # 默认为30秒,表示eureka client间隔多久去拉取服务注册信息
+    registry-fetch-interval-seconds: 30
+    # 是否注册自身，当独立启动时，无需注册，集群则需要注册
+    register-with-eureka: ${REGISTER_EUREKA:false}
+    # 是否获取eureka注册的其它服务信息，当独立启动时，无需获取，集群则需要获取
+    fetch-registry: ${FETCH-REGISTRY:false}
+    service-url:
+      #      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      # http://sc-eureka-server-node2:9102/eureka/,http://sc-eureka-server-node3:9103/eureka/
+      defaultZone: ${EUREKA_URI:http://${eureka.instance.hostname}:${server.port}/eureka/}
+
+

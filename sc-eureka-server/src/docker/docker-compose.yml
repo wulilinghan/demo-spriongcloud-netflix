@@ -1,0 +1,59 @@
+# docker-compose version：https://docs.docker.com/compose/compose-file/compose-versioning/
+version: '3'
+services:
+  eureka-node01:
+    image: sc-eureka-server:1.0.0-SNAPSHOT
+    container_name: eureka-node01
+    hostname: eureka-node01
+    restart: always
+    build: .
+    # 宿主机端口：容器端口
+    ports:
+      - 9101:9101
+    env_file:
+      - dev-env/eureka-common.env
+      - dev-env/eureka-node01.env
+    networks:
+      # 指定为自建网段的IP，自动配置网关为10.10.0.1，这里从2开始
+      eureka-net:
+        ipv4_address: 10.10.0.2
+  eureka-node02:
+    image: sc-eureka-server:1.0.0-SNAPSHOT
+    container_name: eureka-node02
+    hostname: eureka-node02
+    restart: always
+    build: .
+    ports:
+      - 9102:9101
+    env_file:
+      - dev-env/eureka-common.env
+      - dev-env/eureka-node02.env
+    networks:
+      eureka-net:
+        ipv4_address: 10.10.0.3
+  eureka-node03:
+    image: sc-eureka-server:1.0.0-SNAPSHOT
+    container_name: eureka-node03
+    hostname: eureka-node03
+    restart: always
+    build: .
+    ports:
+      - 9103:9101
+    env_file:
+      - dev-env/eureka-common.env
+      - dev-env/eureka-node03.env
+    networks:
+      eureka-net:
+        ipv4_address: 10.10.0.4
+# 自定义网络
+# 运行此compose之前可能已经创建多个network了，这样如果IP网段已经分配过了，就会失败: ERROR: Pool overlaps with other one on this address space
+# 清理无效network： docker network prune
+networks:
+  eureka-net:
+    driver: bridge
+    ipam:
+      # 这里不用配置driver
+      #driver: default
+      config:
+        # 创建指定的网段,会自动配置网关为10.10.0.1，所以别给服务配置这个ip了
+        - subnet: "10.10.0.0/16"
