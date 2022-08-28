@@ -1,2 +1,2 @@
 # demo-spriongcloud-netflix
-link https://github.com/wulilinghan/demo-springcloud-config-repo
+config-repo link 【https://github.com/wulilinghan/demo-springcloud-config-repo】
